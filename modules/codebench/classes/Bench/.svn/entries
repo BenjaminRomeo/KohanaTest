@@ -1,0 +1,133 @@
+10
+
+dir
+0
+https://github.com:443/BenjaminRomeo/KohanaTest.git/modules/codebench/classes/Bench
+https://github.com:443/BenjaminRomeo/KohanaTest.git
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+1fc53930-1ef9-134e-273a-ce57b7db7bff
+
+UserFuncArray.php
+file
+
+
+
+add
+
+LtrimDigits.php
+file
+
+
+
+add
+
+ValidColor.php
+file
+
+
+
+add
+
+DateSpan.php
+file
+
+
+
+add
+
+ExplodeLimit.php
+file
+
+
+
+add
+
+ArrCallback.php
+file
+
+
+
+add
+
+MDDoBaseURL.php
+file
+
+
+
+add
+
+StripNullBytes.php
+file
+
+
+
+add
+
+MDDoIncludeViews.php
+file
+
+
+
+add
+
+GruberURL.php
+file
+
+
+
+add
+
+MDDoImageURL.php
+file
+
+
+
+add
+
+AutoLinkEmails.php
+file
+
+
+
+add
+
+Transliterate.php
+file
+
+
+
+add
+
+ValidURL.php
+file
+
+
+
+add
+
+URLSite.php
+file
+
+
+
+add
+

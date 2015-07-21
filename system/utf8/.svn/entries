@@ -1,0 +1,196 @@
+10
+
+dir
+0
+https://github.com:443/BenjaminRomeo/KohanaTest.git/system/utf8
+https://github.com:443/BenjaminRomeo/KohanaTest.git
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+1fc53930-1ef9-134e-273a-ce57b7db7bff
+
+strspn.php
+file
+
+
+
+add
+
+strpos.php
+file
+
+
+
+add
+
+transliterate_to_ascii.php
+file
+
+
+
+add
+
+strcspn.php
+file
+
+
+
+add
+
+str_pad.php
+file
+
+
+
+add
+
+rtrim.php
+file
+
+
+
+add
+
+strcasecmp.php
+file
+
+
+
+add
+
+strlen.php
+file
+
+
+
+add
+
+from_unicode.php
+file
+
+
+
+add
+
+stristr.php
+file
+
+
+
+add
+
+trim.php
+file
+
+
+
+add
+
+strrpos.php
+file
+
+
+
+add
+
+str_ireplace.php
+file
+
+
+
+add
+
+substr_replace.php
+file
+
+
+
+add
+
+ucfirst.php
+file
+
+
+
+add
+
+substr.php
+file
+
+
+
+add
+
+str_split.php
+file
+
+
+
+add
+
+strtolower.php
+file
+
+
+
+add
+
+ord.php
+file
+
+
+
+add
+
+strrev.php
+file
+
+
+
+add
+
+ucwords.php
+file
+
+
+
+add
+
+ltrim.php
+file
+
+
+
+add
+
+strtoupper.php
+file
+
+
+
+add
+
+to_unicode.php
+file
+
+
+
+add
+

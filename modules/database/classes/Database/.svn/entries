@@ -1,0 +1,91 @@
+10
+
+dir
+0
+https://github.com:443/BenjaminRomeo/KohanaTest.git/modules/database/classes/Database
+https://github.com:443/BenjaminRomeo/KohanaTest.git
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+1fc53930-1ef9-134e-273a-ce57b7db7bff
+
+Exception.php
+file
+
+
+
+add
+
+Result.php
+file
+
+
+
+add
+
+Expression.php
+file
+
+
+
+add
+
+MySQL
+dir
+
+
+
+add
+
+Query
+dir
+
+
+
+add
+
+PDO.php
+file
+
+
+
+add
+
+MySQL.php
+file
+
+
+
+add
+
+Query.php
+file
+
+
+
+add
+
+Result
+dir
+
+
+
+add
+
