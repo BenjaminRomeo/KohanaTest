@@ -26,7 +26,7 @@ abstract class Kohana_Request_Client {
 	/**
 	 * @var  array  Headers to preserve when following a redirect
 	 */
-	protected $_follow_headers = array('authorization');
+	protected $_follow_headers = array('Authorization');
 
 	/**
 	 * @var  bool  Follow 302 redirect with original request method?
@@ -105,8 +105,8 @@ abstract class Kohana_Request_Client {
 						':depth' => $this->callback_depth() - 1,
 					));
 
-		// Execute the request and pass the currently used protocol
-		$orig_response = $response = Response::factory(array('_protocol' => $request->protocol()));
+		// Execute the request
+		$orig_response = $response = Response::factory();
 
 		if (($cache = $this->cache()) instanceof HTTP_Cache)
 			return $cache->execute($this, $request, $response);
@@ -205,7 +205,7 @@ abstract class Kohana_Request_Client {
 		if ($follow_headers === NULL)
 			return $this->_follow_headers;
 
-		$this->_follow_headers = array_map('strtolower', $follow_headers);
+		$this->_follow_headers = $follow_headers;
 
 		return $this;
 	}
@@ -405,14 +405,10 @@ abstract class Kohana_Request_Client {
 					break;
 			}
 
-			// Prepare the additional request, copying any follow_headers that were present on the original request
-			$orig_headers = $request->headers()->getArrayCopy();
-			$follow_header_keys = array_intersect(array_keys($orig_headers), $client->follow_headers());
-			$follow_headers = \Arr::extract($orig_headers, $follow_header_keys);
-
+			// Prepare the additional request
 			$follow_request = Request::factory($response->headers('Location'))
 			                         ->method($follow_method)
-			                         ->headers($follow_headers);
+			                         ->headers(Arr::extract($request->headers(), $client->follow_headers()));
 
 			if ($follow_method !== Request::GET)
 			{

@@ -117,10 +117,6 @@ class Kohana_HTMLTest extends Unittest_TestCase
 				'https',
 				FALSE
 			),
-			array(
-				'<script type="text/javascript" src="//google.com/script.js"></script>',
-				'//google.com/script.js',
-			),
 
 		);
 	}
@@ -197,13 +193,6 @@ class Kohana_HTMLTest extends Unittest_TestCase
 				'https',
 				TRUE
 			),
-			array(
-				'<link type="text/css" href="//google.com/style.css" rel="stylesheet" />',
-				'//google.com/style.css',
-				array(),
-				NULL,
-				FALSE
-			),
 		);
 	}
 
@@ -234,20 +223,6 @@ class Kohana_HTMLTest extends Unittest_TestCase
 	public function provider_anchor()
 	{
 		return array(
-			// a fragment-only anchor
-			array(
-				'<a href="#go-to-section-kohana">Kohana</a>',
-				array(),
-				'#go-to-section-kohana',
-				'Kohana',
-			),
-			// a query-only anchor
-			array(
-				'<a href="?cat=a">Category A</a>',
-				array(),
-				'?cat=a',
-				'Category A',
-			),
 			array(
 				'<a href="http://kohanaframework.org">Kohana</a>',
 				array(),

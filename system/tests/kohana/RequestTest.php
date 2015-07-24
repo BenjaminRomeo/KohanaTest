@@ -270,11 +270,6 @@ class Kohana_RequestTest extends Unittest_TestCase
 				'http',
 				'http://localhost/kohana/foo'
 			),
-			array(
-				'http://www.google.com',
-				'http',
-				'http://www.google.com'
-			),
 		);
 	}
 
@@ -301,14 +296,7 @@ class Kohana_RequestTest extends Unittest_TestCase
 			'Kohana::$index_file' => FALSE,
 		));
 
-		// issue #3967: inject the route so that we don't conflict with the application's default route
-		$route = new Route('(<controller>(/<action>))');
-		$route->defaults(array(
-			'controller' => 'welcome',
-			'action'     => 'index',
-		));
-
-		$this->assertEquals(Request::factory($uri, array(), TRUE, array($route))->url($protocol), $expected);
+		$this->assertEquals(Request::factory($uri)->url($protocol), $expected);
 	}
 
 	/**
@@ -409,15 +397,8 @@ class Kohana_RequestTest extends Unittest_TestCase
 	 */
 	public function provider_uri_only_trimed_on_internal()
 	{
-		// issue #3967: inject the route so that we don't conflict with the application's default route
-		$route = new Route('(<controller>(/<action>))');
-		$route->defaults(array(
-			'controller' => 'welcome',
-			'action'     => 'index',
-		));
-
 		$old_request = Request::$initial;
-		Request::$initial = new Request(TRUE, array(), TRUE, array($route));
+		Request::$initial = new Request(TRUE);
 
 		$result = array(
 			array(

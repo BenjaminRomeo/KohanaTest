@@ -79,7 +79,7 @@ class Kohana_Kohana_Exception extends Exception {
 	 *
 	 * @uses    Kohana_Exception::response
 	 * @param   Exception  $e
-	 * @return  void
+	 * @return  boolean
 	 */
 	public static function handler(Exception $e)
 	{
@@ -97,7 +97,7 @@ class Kohana_Kohana_Exception extends Exception {
 	 *
 	 * @uses    Kohana_Exception::response
 	 * @param   Exception  $e
-	 * @return  Response
+	 * @return  boolean
 	 */
 	public static function _handler(Exception $e)
 	{
@@ -185,6 +185,12 @@ class Kohana_Kohana_Exception extends Exception {
 			$line    = $e->getLine();
 			$trace   = $e->getTrace();
 
+			if ( ! headers_sent())
+			{
+				// Make sure the proper http header is sent
+				$http_header_status = ($e instanceof HTTP_Exception) ? $code : 500;
+			}
+
 			/**
 			 * HTTP_Exceptions are constructed in the HTTP_Exception::factory()
 			 * method. We need to remove that entry from the trace and overwrite
@@ -215,16 +221,6 @@ class Kohana_Kohana_Exception extends Exception {
 						if ( ! isset($frame['type']))
 						{
 							$frame['type'] = '??';
-						}
-
-						// Xdebug returns the words 'dynamic' and 'static' instead of using '->' and '::' symbols
-						if ('dynamic' === $frame['type'])
-						{
-							$frame['type'] = '->';
-						}
-						elseif ('static' === $frame['type'])
-						{
-							$frame['type'] = '::';
 						}
 
 						// XDebug also has a different name for the parameters array

@@ -38,7 +38,7 @@ class Kohana_Request implements HTTP_Request {
 
 	/**
 	 * Creates a new request object for the given URI. New requests should be
-	 * Created using the [Request::factory] method.
+	 * created using the [Request::instance] or [Request::factory] methods.
 	 *
 	 *     $request = Request::factory($uri);
 	 *
@@ -59,7 +59,14 @@ class Kohana_Request implements HTTP_Request {
 		// If this is the initial request
 		if ( ! Request::$initial)
 		{
-			$protocol = HTTP::$protocol;
+			if (isset($_SERVER['SERVER_PROTOCOL']))
+			{
+				$protocol = $_SERVER['SERVER_PROTOCOL'];
+			}
+			else
+			{
+				$protocol = HTTP::$protocol;
+			}
 
 			if (isset($_SERVER['REQUEST_METHOD']))
 			{
@@ -72,10 +79,7 @@ class Kohana_Request implements HTTP_Request {
 				$method = HTTP_Request::GET;
 			}
 
-			if (( ! empty($_SERVER['HTTPS']) AND filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
-			   OR (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
-			   	   AND $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-			       AND in_array($_SERVER['REMOTE_ADDR'], Request::$trusted_proxies))
+			if ( ! empty($_SERVER['HTTPS']) AND filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
 			{
 				// This request is secure
 				$secure = TRUE;
@@ -462,12 +466,6 @@ class Kohana_Request implements HTTP_Request {
 
 		foreach ($routes as $name => $route)
 		{
-			// Use external routes for reverse routing only
-			if ($route->is_external())
-			{
-				continue;
-			}
-
 			// We found something suitable
 			if ($params = $route->matches($request))
 			{
@@ -637,7 +635,7 @@ class Kohana_Request implements HTTP_Request {
 
 	/**
 	 * Creates a new request object for the given URI. New requests should be
-	 * Created using the [Request::factory] method.
+	 * created using the [Request::instance] or [Request::factory] methods.
 	 *
 	 *     $request = new Request($uri);
 	 *
@@ -746,6 +744,7 @@ class Kohana_Request implements HTTP_Request {
 	 *
 	 *     echo URL::site($this->request->uri(), $protocol);
 	 *
+	 * @param   array    $params    URI parameters
 	 * @param   mixed    $protocol  protocol string or Request object
 	 * @return  string
 	 * @since   3.0.7
@@ -753,13 +752,7 @@ class Kohana_Request implements HTTP_Request {
 	 */
 	public function url($protocol = NULL)
 	{
-		if ($this->is_external())
-		{
-			// If it's an external request return the URI
-			return $this->uri();
-		}
-
-		// Create a URI with the current route, convert to a URL and returns
+		// Create a URI with the current route and convert it to a URL
 		return URL::site($this->uri(), $protocol);
 	}
 

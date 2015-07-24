@@ -30,20 +30,7 @@ class Kohana_Cache_FileTest extends Kohana_CacheBasicMethodsTest {
 
 		if ( ! Kohana::$config->load('cache.file'))
 		{
-			Kohana::$config->load('cache')
-				->set(
-					'file',
-					array(
-						'driver'             => 'file',
-						'cache_dir'          => APPPATH.'cache',
-						'default_expire'     => 3600,
-						'ignore_on_delete'   => array(
-							'.gitignore',
-							'.git',
-							'.svn'
-						)
-					)
-			    );
+			$this->markTestSkipped('Unable to load File configuration');
 		}
 
 		$this->cache(Cache::instance('file'));

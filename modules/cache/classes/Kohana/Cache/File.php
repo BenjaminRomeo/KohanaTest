@@ -143,7 +143,7 @@ class Kohana_Cache_File extends Cache implements Cache_GarbageCollect {
 				// Open the file and parse data
 				$created  = $file->getMTime();
 				$data     = $file->openFile();
-				$lifetime = (int) $data->fgets();
+				$lifetime = $data->fgets();
 
 				// If we're at the EOF at this point, corrupted!
 				if ($data->eof())
@@ -159,7 +159,7 @@ class Kohana_Cache_File extends Cache implements Cache_GarbageCollect {
 				}
 
 				// Test the expiry
-				if (($lifetime !== 0) AND (($created + $lifetime) < time()))
+				if (($created + (int) $lifetime) < time())
 				{
 					// Delete the file
 					$this->_delete_file($file, NULL, TRUE);
@@ -219,7 +219,14 @@ class Kohana_Cache_File extends Cache implements Cache_GarbageCollect {
 		// If the directory path is not a directory
 		if ( ! $dir->isDir())
 		{
-			$this->_make_directory($directory, 0777, TRUE);
+			// Create the directory
+			if ( ! mkdir($directory, 0777, TRUE))
+			{
+				throw new Cache_Exception(__METHOD__.' unable to create directory : :directory', array(':directory' => $directory));
+			}
+
+			// chmod to solve potential umask issues
+			chmod($directory, 0777);
 		}
 
 		// Open file to inspect
@@ -439,30 +446,21 @@ class Kohana_Cache_File extends Cache implements Cache_GarbageCollect {
 	 * `mkdir` to ensure DRY principles
 	 *
 	 * @link    http://php.net/manual/en/function.mkdir.php
-	 * @param   string    $directory    directory path
-	 * @param   integer   $mode         chmod mode
-	 * @param   boolean   $recursive    allows nested directories creation
-	 * @param   resource  $context      a stream context
+	 * @param   string    $directory
+	 * @param   integer   $mode
+	 * @param   boolean   $recursive
+	 * @param   resource  $context
 	 * @return  SplFileInfo
 	 * @throws  Cache_Exception
 	 */
 	protected function _make_directory($directory, $mode = 0777, $recursive = FALSE, $context = NULL)
 	{
-		// call mkdir according to the availability of a passed $context param
-		$mkdir_result = $context ?
-			mkdir($directory, $mode, $recursive, $context) :
-			mkdir($directory, $mode, $recursive);
-
-		// throw an exception if unsuccessful
-		if ( ! $mkdir_result)
+		if ( ! mkdir($directory, $mode, $recursive, $context))
 		{
 			throw new Cache_Exception('Failed to create the defined cache directory : :directory', array(':directory' => $directory));
 		}
-
-		// chmod to solve potential umask issues
 		chmod($directory, $mode);
 
 		return new SplFileInfo($directory);
 	}
-
 }

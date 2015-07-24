@@ -22,7 +22,7 @@ else
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('Europe/Paris');
 
 /**
  * Set the default locale.
@@ -30,7 +30,7 @@ date_default_timezone_set('America/Chicago');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en_US.utf-8');
+setlocale(LC_ALL, 'pt_BR.utf-8');
 
 /**
  * Enable the Kohana auto-loader.
@@ -56,25 +56,13 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-/**
- * Set the mb_substitute_character to "none"
- *
- * @link http://www.php.net/manual/function.mb-substitute-character.php
- */
-mb_substitute_character('none');
-
 // -- Configuration and initialization -----------------------------------------
 
 /**
  * Set the default language
  */
-I18n::lang('en-us');
-
-if (isset($_SERVER['SERVER_PROTOCOL']))
-{
-	// Replace the default protocol.
-	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
-}
+I18n::lang('en');
+Cookie::$salt = 'Kohana-SALT';
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -103,7 +91,10 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => 'localhost/kohana/',
+	'base_url'   => '/kohanatest/',
+	'caching'    => Kohana::$environment === Kohana::PRODUCTION,
+    'profile'    => Kohana::$environment !== Kohana::PRODUCTION,
+    'index_file' => FALSE,
 ));
 
 /**
@@ -120,32 +111,24 @@ Kohana::$config->attach(new Config_File);
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	// 'auth'       => MODPATH.'auth',       // Basic authentication
-	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
+	'auth'       => MODPATH.'auth',       // Basic authentication
+	'cache'      => MODPATH.'cache',      // Caching with multiple backends
+	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	'database'   => MODPATH.'database',   // Database access
+	'image'      => MODPATH.'image',      // Image manipulation
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	// 'database'   => MODPATH.'database',   // Database access
-	// 'image'      => MODPATH.'image',      // Image manipulation
 	// 'minion'     => MODPATH.'minion',     // CLI Tasks
-	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
 /**
- * Cookie Salt
- * @see  http://kohanaframework.org/3.3/guide/kohana/cookies
- * 
- * If you have not defined a cookie salt in your Cookie class then
- * uncomment the line below and define a preferrably long salt.
- */
-// Cookie::$salt = NULL;
-
-/**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-		'controller' => 'welcome',
+		'controller' => 'user',
 		'action'     => 'index',
 	));

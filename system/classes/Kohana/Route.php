@@ -216,9 +216,9 @@ class Kohana_Route {
 
 		// Create a URI with the route and convert it to a URL
 		if ($route->is_external())
-			return $route->uri($params);
+			return Route::get($name)->uri($params);
 		else
-			return URL::site($route->uri($params), $protocol);
+			return URL::site(Route::get($name)->uri($params), $protocol);
 	}
 
 	/**
@@ -509,14 +509,6 @@ class Kohana_Route {
 	 */
 	public function uri(array $params = NULL)
 	{
-		if ($params)
-		{
-			// @issue #4079 rawurlencode parameters
-			$params = array_map('rawurlencode', $params);
-			// decode slashes back, see Apache docs about AllowEncodedSlashes and AcceptPathInfo
-			$params = str_replace(array('%2F', '%5C'), array('/', '\\'), $params);
-		}
-
 		$defaults = $this->_defaults;
 
 		/**

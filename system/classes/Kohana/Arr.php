@@ -207,13 +207,8 @@ class Kohana_Arr {
 			$delimiter = Arr::$delimiter;
 		}
 
-		// The path has already been separated into keys
-		$keys = $path;
-		if ( ! is_array($path))
-		{
-			// Split the keys by delimiter
-			$keys = explode($delimiter, $path);
-		}
+		// Split the keys by delimiter
+		$keys = explode($delimiter, $path);
 
 		// Set current $array to inner-most array path
 		while (count($keys) > 1)
@@ -279,13 +274,7 @@ class Kohana_Arr {
 	 */
 	public static function get($array, $key, $default = NULL)
 	{
-		if ($array instanceof ArrayObject) {
-			// This is a workaround for inconsistent implementation of isset between PHP and HHVM
-			// See https://github.com/facebook/hhvm/issues/3437
-			return $array->offsetExists($key) ? $array->offsetGet($key) : $default;
-		} else {
-			return isset($array[$key]) ? $array[$key] : $default;
-		}
+		return isset($array[$key]) ? $array[$key] : $default;
 	}
 
 	/**
